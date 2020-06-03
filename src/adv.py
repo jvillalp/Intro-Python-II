@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -38,15 +38,35 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player ={
-    room
-}
-# Write a loop that:
+print("What is your name? ")
+name = input()
 
-def current_room():
-    return room
-    print(room)
-#
+player = Player(name, room['outside'])
+# Write a loop that:
+while True:
+    print("Current Room: " + player.current_room.name)
+    print("\nDescription: " + player.current_room.description)
+    print("\nWhat direction would you like to go? Use N,S,E,W for directions, and q to quit.")
+    direction = input()
+    currentRoom = player.current_room.name
+    if direction.lower() == 'n':
+        if player.current_room.n_to:
+            player.current_room = player.current_room.n_to
+    elif direction.lower() == 's':
+        if player.current_room.s_to:
+            player.current_room = player.current_room.s_to
+    elif direction.lower() == 'e':
+        if player.current_room.e_to:
+            player.current_room = player.current_room.e_to    
+    elif direction.lower() == 'w':
+        if player.current_room.w_to:
+            player.current_room = player.current_room.w_to
+    elif direction.lower() == "q":
+        break
+    else:
+        "Error: Please try again using N, S, E, W, and Q for commands."
+    if player.current_room.name == currentRoom:
+        print("Cannot go in that direction, please try again.")
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.

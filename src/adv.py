@@ -39,6 +39,9 @@ room['treasure'].s_to = room['narrow']
 room['outside'].items.append(Item("Sword", "Used to kill the spiders."))
 room['outside'].items.append(Item("Stick", "used to hit rock."))
 room['foyer'].items.append(Item("Rock", "To open doors."))
+room['overlook'].items.append(Item("potion", "Legend says you can use this to see in the dark."))
+room['narrow'].items.append(Item("magic beans", "They allow you to break through metal walls once consumed."))
+room['treasure'].items.append(Item("key", "This allows you to unlock the treasure!"))
 
 # Main
 #

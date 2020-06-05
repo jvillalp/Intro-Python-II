@@ -34,12 +34,14 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-#
-# Main
-#
+#Link Room and Items
+
 room['outside'].items.append(Item("Sword", "Used to kill the spiders."))
 room['outside'].items.append(Item("Stick", "used to hit rock."))
 room['foyer'].items.append(Item("Rock", "To open doors."))
+
+# Main
+#
 # Make a new player object that is currently in the 'outside' room.
 print("What is your name? ")
 name = input()
@@ -50,15 +52,12 @@ player = Player(name, room['outside'], [])
 user_is_playng = True
 
 while user_is_playng:
-    print("Current Room: " + player.current_room.name)
+    print("\nCurrent Room: " + player.current_room.name)
     print("\nDescription: " + player.current_room.description)
     print("\nRoomItems: ")
     for item in player.current_room.items:
         print(item)
-    print("\nPlayerItems: ")
-    for item in player.items:
-        print(item)
-    print("\nWhat direction would you like to go? Use N,S,E,W for directions, and q to quit.")
+    print("\nWhat direction would you like to go? Use N,S,E,W for directions, i/inventory to fetch inventory, take/get to get item from room, drop to drop an item and q to quit.")
     direction = input().split()
     currentRoom = player.current_room.name
     if len(direction) == 1: 
@@ -74,14 +73,44 @@ while user_is_playng:
         elif direction[0].lower() == 'w':
             if player.current_room.w_to:
                 player.current_room = player.current_room.w_to
+        elif direction[0].lower() == "i" or direction[0].lower() == "inventory":
+            print("\nInventory:")
+            print("\nPlayerItems: ")
+            for item in player.items:
+                print(item)
         elif direction[0].lower() == "q":
             break
-    # elif len(direction) == 2:
+        else:
+            "Error: Please try again using N,S,E,W for directions, i/inventory to fetch inventory, take/get to get item from room, drop to drop an item and q to quit.\n"
+        if player.current_room.name == currentRoom and (direction[0].lower() != "i" and direction[0].lower() != "inventory"):
+            print("Please try again.")
+
+    elif len(direction) == 2:
+        if direction[0].lower() == 'get' or direction[0].lower() == 'take':
+            item_exists = False
+            for item in player.current_room.items:
+                if item.name.lower() == direction[1].lower():
+                    player.items.append(item)
+                    player.current_room.items.remove(item)
+                    item.on_take()
+                    item_exists = True
+                    break
+            if not item_exists:
+                print("\nItem does not exist in the room, please try again.")
+        elif direction[0].lower() == 'drop':
+            item_exists = False
+            for item in player.items:
+                if item.name.lower() == direction[1].lower():
+                    player.current_room.items.append(item)
+                    player.items.remove(item)
+                    item.on_drop()
+                    item_exists = True
+                    break
+            if not item_exists:
+                print("\nItem does not exist in the room, please try again.")
 
     else:
-        "Error: Please try again using N, S, E, W, and Q for commands."
-    if player.current_room.name == currentRoom:
-        print("Cannot go in that direction, please try again.")
+        "Error: Please try again using 'get' and name of item."
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.

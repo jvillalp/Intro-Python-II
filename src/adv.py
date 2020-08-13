@@ -45,10 +45,10 @@ room['treasure'].items.append(Item("key", "This allows you to unlock the treasur
 
 # Main
 #
+
 # Make a new player object that is currently in the 'outside' room.
 print("What is your name? ")
 name = input()
-
 player = Player(name, room['outside'], [])
 
 # Write a loop that:

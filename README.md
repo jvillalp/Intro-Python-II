@@ -157,7 +157,7 @@ In arbitrary order:
 
 * Add light and darkness to the game
 
-* Add more items to the game.
+* [x] Add more items to the game.
 
 * Add a way to win.
 
